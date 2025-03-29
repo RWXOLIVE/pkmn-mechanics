@@ -89,6 +89,175 @@
             vertical-align: middle;
             margin-right: 6px;
         }
+
+        /* Calculator Styles */
+        .calculator-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 240px;
+            background: linear-gradient(145deg, #d6d6d6, #b8b8b8);
+            color: #333;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            border: 1px solid #999;
+            font-family: 'Arial', sans-serif;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .calculator-container.collapsed {
+            transform: translateY(calc(100% + 20px));
+            opacity: 0;
+            pointer-events: none;
+        }
+        .dark-mode .calculator-container {
+            background: linear-gradient(145deg, #333, #222);
+            border-color: #444;
+            color: #eee;
+        }
+        .calculator-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px;
+            background: #aaa;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+        .dark-mode .calculator-header {
+            background: #444;
+            color: #eee;
+        }
+        .calculator input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #999;
+            border-radius: 5px;
+            background: #f0f0f0;
+            text-align: right;
+            font-size: 18px;
+        }
+        .dark-mode .calculator input {
+            background: #333;
+            border-color: #555;
+            color: #fff;
+        }
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+        .calculator button {
+            padding: 15px;
+            background: linear-gradient(145deg, #e0e0e0, #c0c0c0);
+            color: #333;
+            border: 1px solid #999;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .dark-mode .calculator button {
+            background: linear-gradient(145deg, #444, #333);
+            color: #eee;
+            border-color: #555;
+        }
+        .calculator button:hover {
+            background: linear-gradient(145deg, #d0d0d0, #b0b0b0);
+        }
+        .dark-mode .calculator button:hover {
+            background: linear-gradient(145deg, #555, #444);
+        }
+        .calculator button.operator {
+            background: linear-gradient(145deg, #ff9500, #e08500);
+            color: white;
+        }
+        .dark-mode .calculator button.operator {
+            background: linear-gradient(145deg, #e08500, #c07500);
+        }
+        .calculator button.operator:hover {
+            background: linear-gradient(145deg, #e08500, #c07500);
+        }
+        .dark-mode .calculator button.operator:hover {
+            background: linear-gradient(145deg, #d07500, #b06500);
+        }
+        .calculator button.equals {
+            background: linear-gradient(145deg, #4CAF50, #3e8e41);
+            color: white;
+        }
+        .dark-mode .calculator button.equals {
+            background: linear-gradient(145deg, #3e8e41, #2d7d32);
+        }
+        .calculator button.equals:hover {
+            background: linear-gradient(145deg, #3e8e41, #2d7d32);
+        }
+        .dark-mode .calculator button.equals:hover {
+            background: linear-gradient(145deg, #2d7d32, #1c6c23);
+        }
+        .calculator button.clear {
+            background: linear-gradient(145deg, #f44336, #d32f2f);
+            color: white;
+        }
+        .dark-mode .calculator button.clear {
+            background: linear-gradient(145deg, #d32f2f, #b71c1c);
+        }
+        .calculator button.clear:hover {
+            background: linear-gradient(145deg, #d32f2f, #b71c1c);
+        }
+        .dark-mode .calculator button.clear:hover {
+            background: linear-gradient(145deg, #c71c1c, #a60b0b);
+        }
+        #calc-output {
+            text-align: right;
+            margin-top: 5px;
+            padding: 5px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            min-height: 20px;
+        }
+        .dark-mode #calc-output {
+            background: #333;
+            color: #fff;
+        }
+
+        /* Calculator Toggle Button */
+        .calculator-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(145deg, #ff9500, #e08500);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+        .dark-mode .calculator-toggle {
+            background: linear-gradient(145deg, #e08500, #c07500);
+        }
+        .calculator-toggle:hover {
+            background: linear-gradient(145deg, #e08500, #c07500);
+        }
+        .dark-mode .calculator-toggle:hover {
+            background: linear-gradient(145deg, #d07500, #b06500);
+        }
+        .calculator-toggle.collapsed {
+            transform: none;
+            opacity: 1;
+        }
     </style>
 </head>
 <body onload="loadTheme()">
@@ -150,6 +319,38 @@
         <p><img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/iapapa-berry.png" class="berry-icon" alt="Iapapa Berry"><strong>Iapapa Berry</strong>: Restores 1/3 max HP at 1/4 max HP or less; confuses if -SpDef Nature.</p>
     </div>
     
+    <div id="calculator" class="calculator-container">
+        <div class="calculator-header" onclick="toggleCalculator()">
+            <span>Calculator</span>
+            <button style="padding: 5px 10px; font-size: 12px;">×</button>
+        </div>
+        <div class="calculator">
+            <input type="text" id="calc-input" readonly>
+            <div class="calculator-buttons">
+                <button onclick="clearDisplay()" class="clear">C</button>
+                <button onclick="appendToDisplay('/')" class="operator">÷</button>
+                <button onclick="appendToDisplay('*')" class="operator">×</button>
+                <button onclick="appendToDisplay('-')" class="operator">−</button>
+                <button onclick="appendToDisplay('7')">7</button>
+                <button onclick="appendToDisplay('8')">8</button>
+                <button onclick="appendToDisplay('9')">9</button>
+                <button onclick="appendToDisplay('+')" class="operator">+</button>
+                <button onclick="appendToDisplay('4')">4</button>
+                <button onclick="appendToDisplay('5')">5</button>
+                <button onclick="appendToDisplay('6')">6</button>
+                <button onclick="calculate()" class="equals" style="grid-row: span 2;">=</button>
+                <button onclick="appendToDisplay('1')">1</button>
+                <button onclick="appendToDisplay('2')">2</button>
+                <button onclick="appendToDisplay('3')">3</button>
+                <button onclick="appendToDisplay('0')" style="grid-column: span 2;">0</button>
+                <button onclick="appendToDisplay('.')">.</button>
+            </div>
+            <p id="calc-output"></p>
+        </div>
+    </div>
+
+    <button id="calculatorToggle" class="calculator-toggle collapsed" onclick="showCalculator()">+</button>
+
     <script>
         function toggleDarkMode() {
             const body = document.body;
@@ -162,12 +363,50 @@
         }
         
         function loadTheme() {
-            const isDarkMode = localStorage.getItem('dark-mode') === 'true';
-            if (isDarkMode) {
+            const isDarkMode = localStorage.getItem('dark-mode');
+            if (isDarkMode === null || isDarkMode === 'true') {
                 document.body.classList.add('dark-mode');
                 document.querySelector('.toggle-button').textContent = '🌙';
             }
         }
+        
+        function toggleCalculator() {
+            const calculator = document.getElementById('calculator');
+            calculator.classList.toggle('collapsed');
+            
+            const toggleBtn = document.getElementById('calculatorToggle');
+            toggleBtn.classList.toggle('collapsed');
+        }
+        
+        function showCalculator() {
+            const calculator = document.getElementById('calculator');
+            calculator.classList.remove('collapsed');
+            document.getElementById('calculatorToggle').classList.add('collapsed');
+        }
+        
+        function appendToDisplay(value) {
+            document.getElementById('calc-input').value += value;
+        }
+        
+        function clearDisplay() {
+            document.getElementById('calc-input').value = '';
+            document.getElementById('calc-output').textContent = '';
+        }
+        
+        function calculate() {
+            try {
+                const input = document.getElementById('calc-input').value;
+                // Replace × with * and ÷ with / for proper evaluation
+                const expression = input.replace(/×/g, '*').replace(/÷/g, '/');
+                const result = eval(expression);
+                document.getElementById('calc-output').textContent = result;
+            } catch (e) {
+                document.getElementById('calc-output').textContent = 'Error';
+            }
+        }
+
+        // Initialize calculator state
+        document.getElementById('calculatorToggle').classList.add('collapsed');
     </script>
 </body>
 </html>
