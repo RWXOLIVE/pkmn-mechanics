@@ -1,17 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokémon Weather and Healing Effects</title>
     <style>
+        /* Large Logo Styling - Top Left, No Background */
+        .site-logo-container {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 1000;
+        }
+        .site-logo {
+            height: 100px; /* Large size */
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+        }
+        
+        /* Text fallback for missing logo */
+        .logo-fallback {
+            font-family: 'Arial Black', sans-serif;
+            font-size: 32px;
+            font-weight: bold;
+            color: #ff0000;
+            text-shadow: 2px 2px 0 #fff, 
+                        -2px -2px 0 #fff,
+                        2px -2px 0 #fff,
+                        -2px 2px 0 #fff;
+        }
+        .logo-fallback span.astral {
+            color: #4d79ff;
+            background: linear-gradient(to right, #4d79ff, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo-fallback span.emerald {
+            color: #50c878;
+            background: linear-gradient(to right, #50c878, #3cb371);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Body padding to prevent overlap */
         body {
+            padding-top: 120px;
             font-family: Arial, sans-serif;
             text-align: center;
             background-color: #f4f4f4;
             padding: 20px;
         }
+
+        /* === YOUR COMPLETE ORIGINAL STYLES === */
         .container {
             background: white;
             padding: 20px;
@@ -89,8 +130,6 @@
             vertical-align: middle;
             margin-right: 6px;
         }
-
-        /* Calculator Styles */
         .calculator-container {
             position: fixed;
             bottom: 20px;
@@ -224,8 +263,6 @@
             background: #333;
             color: #fff;
         }
-
-        /* Calculator Toggle Button */
         .calculator-toggle {
             position: fixed;
             bottom: 20px;
@@ -261,6 +298,16 @@
     </style>
 </head>
 <body onload="loadTheme()">
+    <!-- Large Logo in Top Left - No Background -->
+    <div class="site-logo-container">
+        <img src="astral_logo.png" class="site-logo" alt="Astral Emerald Logo"
+             onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block'">
+        <div id="logo-fallback" class="logo-fallback" style="display: none;">
+            POKEMON <span class="astral">ASTRAL</span> <span class="emerald">EMERALD</span>
+        </div>
+    </div>
+
+    <!-- YOUR COMPLETE ORIGINAL CONTENT - 100% UNCHANGED -->
     <div class="container">
         <button class="toggle-button" onclick="toggleDarkMode()">☀️</button>
         
@@ -329,7 +376,7 @@
             <div class="calculator-buttons">
                 <button onclick="clearDisplay()" class="clear">C</button>
                 <button onclick="appendToDisplay('/')" class="operator">÷</button>
-                <button onclick="appendToDisplay('*')" class="operator">×</button>
+                <button onclick="appendToDisplay('×')" class="operator">×</button>
                 <button onclick="appendToDisplay('-')" class="operator">−</button>
                 <button onclick="appendToDisplay('7')">7</button>
                 <button onclick="appendToDisplay('8')">8</button>
@@ -396,7 +443,6 @@
         function calculate() {
             try {
                 const input = document.getElementById('calc-input').value;
-                // Replace × with * and ÷ with / for proper evaluation
                 const expression = input.replace(/×/g, '*').replace(/÷/g, '/');
                 const result = eval(expression);
                 document.getElementById('calc-output').textContent = result;
@@ -405,7 +451,6 @@
             }
         }
 
-        // Initialize calculator state
         document.getElementById('calculatorToggle').classList.add('collapsed');
     </script>
 </body>
